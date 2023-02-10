@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"os"
 	"time"
-	// "bookstore.hoomans.dev/internal/models"
+
+	m "bookstore.hoomans.dev/internal/models"
 )
 
 type application struct {
@@ -14,19 +15,11 @@ type application struct {
 	infoLog  *log.Logger
 }
 
-type Book struct {
-	Title       string    `json:"title"`
-	Author      string    `json:"author"`
-	ISBN        string    `json:"isbn"`
-	Description string    `json:"desc"`
-	Published   time.Time `json:"pub"`
-}
-
-var Books []Book
+var Books []m.Book
 
 func main() {
 
-	Books = []Book{
+	Books = []m.Book{
 		{Title: "Off the clock", Author: "Laura Vanderkam", ISBN: "978-03494-2233-6", Description: "Hello", Published: time.Now()},
 	}
 	addr := flag.String("addr", ":4000", "HTTP network address")

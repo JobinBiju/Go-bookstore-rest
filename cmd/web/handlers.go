@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
+
+	m "bookstore.hoomans.dev/internal/models"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +42,7 @@ func (app *application) bookCreate(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("Endpoint Hit: create book")
 	reqBody, _ := io.ReadAll(r.Body)
-	var book Book
+	var book m.Book
 	json.Unmarshal(reqBody, &book)
 	// update our global Articles array to include
 	// our new Article
@@ -54,8 +55,8 @@ func (app *application) bookUpdate(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
 	if id != "" {
-		var updatedEvent Book
-		reqBody, _ := ioutil.ReadAll(r.Body)
+		var updatedEvent m.Book
+		reqBody, _ := io.ReadAll(r.Body)
 		json.Unmarshal(reqBody, &updatedEvent)
 		for i, book := range Books {
 			if book.ISBN == id {
