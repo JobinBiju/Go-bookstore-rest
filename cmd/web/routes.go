@@ -11,5 +11,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/", app.home)
 	mux.HandleFunc("/book/view", app.booksView)
 	mux.HandleFunc("/book/create", app.bookCreate)
+	mux.HandleFunc("/book/delete", app.bookDelete)
+	mux.HandleFunc("/book/update", app.bookUpdate)
 	return mux
 }

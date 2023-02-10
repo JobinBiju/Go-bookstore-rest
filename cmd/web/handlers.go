@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -39,7 +40,7 @@ func (app *application) bookCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("Endpoint Hit: create book")
-	reqBody, _ := ioutil.ReadAll(r.Body)
+	reqBody, _ := io.ReadAll(r.Body)
 	var book Book
 	json.Unmarshal(reqBody, &book)
 	// update our global Articles array to include
@@ -47,4 +48,37 @@ func (app *application) bookCreate(w http.ResponseWriter, r *http.Request) {
 	Books = append(Books, book)
 
 	json.NewEncoder(w).Encode(book)
+}
+
+func (app *application) bookDelete(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+
+	if id != "" {
+		for index, book := range Books {
+			if book.ISBN == id {
+				Books = append(Books[:index], Books[index+1:]...)
+			}
+		}
+	}
+
+}
+
+func (app *application) bookUpdate(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+
+	if id != "" {
+		var updatedEvent Book
+		reqBody, _ := ioutil.ReadAll(r.Body)
+		json.Unmarshal(reqBody, &updatedEvent)
+		for i, book := range Books {
+			if book.ISBN == id {
+				book.Title = updatedEvent.Title
+				book.Description = updatedEvent.Description
+				book.Author = updatedEvent.Author
+				book.Published = updatedEvent.Published
+				Books[i] = book
+				json.NewEncoder(w).Encode(book)
+			}
+		}
+	}
 }

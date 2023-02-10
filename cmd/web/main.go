@@ -27,7 +27,7 @@ var Books []Book
 func main() {
 
 	Books = []Book{
-		Book{Title: "Off the clock", Author: "Laura Vanderkam", ISBN: "978-03494-2233-6", Description: "Hello", Published: time.Now()},
+		{Title: "Off the clock", Author: "Laura Vanderkam", ISBN: "978-03494-2233-6", Description: "Hello", Published: time.Now()},
 	}
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	flag.Parse()
