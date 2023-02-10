@@ -50,19 +50,6 @@ func (app *application) bookCreate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(book)
 }
 
-func (app *application) bookDelete(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-
-	if id != "" {
-		for index, book := range Books {
-			if book.ISBN == id {
-				Books = append(Books[:index], Books[index+1:]...)
-			}
-		}
-	}
-
-}
-
 func (app *application) bookUpdate(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 
@@ -81,4 +68,18 @@ func (app *application) bookUpdate(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+	fmt.Println("Endpoint Hit: update book")
+}
+
+func (app *application) bookDelete(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+
+	if id != "" {
+		for index, book := range Books {
+			if book.ISBN == id {
+				Books = append(Books[:index], Books[index+1:]...)
+			}
+		}
+	}
+	fmt.Println("Endpoint Hit: delete book")
 }
